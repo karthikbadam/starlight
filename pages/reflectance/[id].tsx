@@ -11,7 +11,7 @@ export default function UserPage() {
   )
 
   if (error) return <div>Failed to load user</div>
-  if (!data) return <div>Loading...</div>
+  if (!data ) return <div>Loading...</div>
 
   return <div>{JSON.stringify(data.slice(0, 10))}</div>
 }

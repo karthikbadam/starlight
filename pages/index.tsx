@@ -2,17 +2,19 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 
 const Home: NextPage = () => {
-  const data = ['00', '01', '02', '03', '04', '05']
+  const data = Array.from(Array(20).keys()).map((index) =>
+    index < 10 ? `0${index}` : `${index}`
+  )
   return (
-    <ul>
-      {data.map((id) => (
-        <li key={id}>
+    <div className="grid grid-cols-6 gap-6 justify-items-center mt-10">
+      {data.map(id => (
+        <div key={id}>
           <Link href="/reflectance/[id]" as={`/reflectance/${id}`}>
-            {`Reflectance File: ${id}`}
+            {`${id}.csv`}
           </Link>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   )
 }
 

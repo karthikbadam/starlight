@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import {
   ReflectanceElement,
   ReflectanceElementType,
-} from '../../schema/reflectanceSchema'
+} from '../../schema/reflectance'
 import path from 'path'
 import fs from 'fs'
 import zlib from 'zlib'
