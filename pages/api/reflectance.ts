@@ -1,14 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {
-  ReflectanceElement,
-  ReflectanceElementType,
-} from '../../schema/reflectance'
+import { ReflectanceElement } from '../../schema/reflectance'
 import path from 'path'
 import fs from 'fs'
 import zlib from 'zlib'
 import csv from 'csv-parser'
 
-type Data = Array<ReflectanceElementType>
+type Data = Array<ReflectanceElement>
 
 export default function handler(
   req: NextApiRequest,

@@ -30,7 +30,7 @@ const NavItem = ({ text, href, active }: NavItemProps) => {
 
 const Page: React.FC<Props> = ({ navOptions, children }) => {
   return (
-    <Box w="100%">
+    <Box w="100hw" h="100vh" bg="pageBackground">
       <Box w="100%" h="80px" pb={4} position="sticky" top={0}>
         <Stack direction="row" p={6} spacing="50px" alignItems="end">
           <Box mr="100px">

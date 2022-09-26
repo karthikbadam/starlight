@@ -1,23 +1,17 @@
-import { Box, Code } from '@chakra-ui/react'
+import { Box, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import useSwr from 'swr'
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react'
+import TableView from '../../components/TableView'
+import { Reflectance, ReflectanceElement } from '../../schema/reflectance'
+import { frequencyCounter } from '../../utils/frequency'
+
+type ReflectanceColumns = Array<keyof ReflectanceElement>
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function ReflectancePage() {
   const router = useRouter()
-  const { data, error } = useSwr(
+  const { data, error } = useSwr<Reflectance, string>(
     router.query.id ? `/api/reflectance/?id=${router.query.id}` : null,
     fetcher
   )
@@ -26,33 +20,19 @@ export default function ReflectancePage() {
   if (!data) return <div>Loading...</div>
   if (data.length === 0) return <div>No data to show</div>
 
-  const columns = Object.keys(data[0])
+  const columns = Object.keys(data[0]) as ReflectanceColumns
+  const sourceCounts = frequencyCounter(data, 'source_id')
   return (
     <Box>
-      <TableContainer>
-        <Table size="sm">
-          <Thead>
-            <Tr>
-              {columns.map((c, i) => (
-                <Th key={`header${i}`} isNumeric={!isNaN(data[0][c])}>
-                  {c}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.slice(0, 20).map((d: any, i: number) => (
-              <Tr key={`d-${i}`}>
-                {columns.map((c) => (
-                  <Td key={`d-col-${c}`} isNumeric={!isNaN(d[c])}>
-                    {d[c]}
-                  </Td>
-                ))}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <Stack direction="column" gap={4}>
+        <Box maxW="200" px={4} py={2} bg="background" borderRadius="md">
+          <Text fontSize="4xl">{Object.keys(sourceCounts).length}</Text>
+          <Text fontSize="sm" color="subtle">
+            Sources
+          </Text>
+        </Box>
+        <TableView data={data} columns={columns}></TableView>
+      </Stack>
     </Box>
   )
 }

@@ -5,8 +5,12 @@ const theme = extendTheme({
   useSystemColorMode: false,
   semanticTokens: {
     colors: {
+      pageBackground: {
+        default: 'gray.100',
+        _dark: 'body',
+      },
       background: {
-        default: 'gray.200',
+        default: 'white',
         _dark: 'gray.700',
       },
       subtle: {

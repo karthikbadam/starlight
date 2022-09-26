@@ -23,4 +23,5 @@ export const ReflectanceElement = z.object({
 })
 
 // extract the inferred type
-export type ReflectanceElementType = z.infer<typeof ReflectanceElement>
+export type ReflectanceElement = z.infer<typeof ReflectanceElement>
+export type Reflectance = Array<ReflectanceElement>
