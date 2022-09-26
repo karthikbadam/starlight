@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Box, Heading, Stack } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,19 +8,18 @@ type NavItemProps = {
   active?: boolean
 }
 
-type Props = {
+interface Props {
   navOptions: Array<NavItemProps>
   children?: React.ReactNode
 }
 
 const NavItem = ({ text, href, active }: NavItemProps) => {
-  const color = useColorModeValue('gray.600', 'gray.400')
   return (
     <Link href={href}>
       <Box
         cursor="pointer"
         _hover={{
-          color,
+          color: 'subtle',
         }}
       >
         {text}

@@ -11,7 +11,7 @@ const NAV_OPTIONS = [
     active: false,
   },
   {
-    text: 'Shift',
+    text: 'Doppler Shift',
     href: '/shift',
     active: false,
   },
