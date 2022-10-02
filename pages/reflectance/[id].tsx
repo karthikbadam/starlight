@@ -1,9 +1,11 @@
 import { Box, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import useSwr from 'swr'
-import TableView from '../../components/TableView'
+import VisTable from '../../components/VisTable'
+import VisNumber from '../../components/VisNumber'
 import { Reflectance, ReflectanceElement } from '../../schema/reflectance'
 import { frequencyCounter } from '../../utils/frequency'
+import VisBars from '../../components/VisBars'
 
 type ReflectanceColumns = Array<keyof ReflectanceElement>
 
@@ -15,23 +17,44 @@ export default function ReflectancePage() {
     router.query.id ? `/api/reflectance/?id=${router.query.id}` : null,
     fetcher
   )
+  if (error)
+    return (
+      <Box>
+        <Text>Failed to load user</Text>
+      </Box>
+    )
 
-  if (error) return <div>Failed to load user</div>
-  if (!data) return <div>Loading...</div>
-  if (data.length === 0) return <div>No data to show</div>
+  const columns =
+    data && data[0] ? (Object.keys(data[0]) as ReflectanceColumns) : []
 
-  const columns = Object.keys(data[0]) as ReflectanceColumns
   const sourceCounts = frequencyCounter(data, 'source_id')
+  const denominationCounts = frequencyCounter(data, 'denomination')
   return (
     <Box>
       <Stack direction="column" gap={4}>
-        <Box maxW="200" px={4} py={2} bg="background" borderRadius="md">
-          <Text fontSize="4xl">{Object.keys(sourceCounts).length}</Text>
-          <Text fontSize="sm" color="subtle">
-            Sources
-          </Text>
-        </Box>
-        <TableView data={data} columns={columns}></TableView>
+        <Stack direction="row" gap={4}>
+          <VisNumber
+            number={Object.keys(sourceCounts).length}
+            description="Sources"
+            loading={!data}
+          ></VisNumber>
+          <VisNumber
+            number={Object.keys(denominationCounts).length}
+            description="Denominations"
+            loading={!data}
+          ></VisNumber>
+          <VisNumber
+            number={data?.reduce((a, d) => a + d.nb_samples, 0) || 0}
+            description="Total Samples"
+            loading={!data}
+          ></VisNumber>
+        </Stack>
+        <Stack direction="row" gap={4}>
+          {data && (
+            <VisBars data={denominationCounts} loading={!data}></VisBars>
+          )}
+          {data && <VisTable data={data} columns={columns}></VisTable>}
+        </Stack>
       </Stack>
     </Box>
   )

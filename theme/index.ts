@@ -16,6 +16,10 @@ const theme = extendTheme({
       subtle: {
         default: 'gray.600',
         _dark: 'gray.400',
+      },
+      primary: {
+        default: 'gray.800',
+        _dark: 'whiteAlpha.900'
       }
     },
   },

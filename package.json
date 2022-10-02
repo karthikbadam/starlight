@@ -16,6 +16,7 @@
     "@visx/group": "^2.10.0",
     "@visx/scale": "^2.2.2",
     "@visx/shape": "^2.12.2",
+    "@visx/text": "^2.12.2",
     "csv-parser": "^3.0.0",
     "framer-motion": "^6.5.1",
     "next": "12.1.6",
