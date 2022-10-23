@@ -19,7 +19,7 @@ type BarsProps = {
 
 const VisBars = ({
   data = {},
-  width = 300,
+  width = 200,
   events = false,
   loading = false,
 }: BarsProps) => {
