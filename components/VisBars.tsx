@@ -5,7 +5,7 @@ import { Group } from '@visx/group'
 import { scaleBand, scaleLinear } from '@visx/scale'
 import { Box, Skeleton, useToken } from '@chakra-ui/react'
 
-const MIN_WIDTH = 30
+const MIN_WIDTH = 40
 
 type BarsProps = {
   width?: number
@@ -23,7 +23,8 @@ const VisBars = ({
   events = false,
   loading = false,
 }: BarsProps) => {
-  const height = MIN_WIDTH * Object.keys(data).length + MIN_WIDTH
+  
+  const height = MIN_WIDTH * (Object.keys(data).length + 1)
 
   // bounds
   const xMax = width
@@ -52,7 +53,7 @@ const VisBars = ({
     [yMax, data]
   )
 
-  const [primary, blue200] = useToken('colors', ['primary', 'blue.200'])
+  const [primary, primaryFill] = useToken('colors', ['primary', 'blue.200'])
 
   return (
     <Skeleton isLoaded={!loading}>
@@ -61,24 +62,24 @@ const VisBars = ({
           <Group>
             {Object.entries(data).map(([key, value]) => {
               const barWidth = xScale(value)
-              const barHeight = 4
+              const barHeight = 5
               const x = 0
               const y = yScale(key) ?? 0
               return (
                 <Group left={x} top={y} key={`bar-${key}`}>
                   <Text
                     textAnchor="start"
-                    verticalAnchor="start"
+                    verticalAnchor="end"
                     fill={primary}
                   >
                     {key}
                   </Text>
                   <Bar
                     x={0}
-                    y={yScale.bandwidth() - barHeight / 2}
+                    y={barHeight}
                     width={barWidth}
                     height={barHeight}
-                    fill={blue200}
+                    fill={primaryFill}
                     rx={2}
                     onClick={() => {
                       if (events) console.log(`clicked: ${key} ${value}`)
